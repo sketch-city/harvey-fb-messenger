@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json())
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'hurricane-harvey-messenger';
-const PORT = process.env.NODE_ENV === 'production' ? 80 : 3000;
+const PORT = process.env.PORT || 8080;
 
 // GET - verification
 app.get('/webhook', function(req, res) {
@@ -59,5 +59,5 @@ app.post('/webhook', function (req, res) {
 });
 
 app.listen(PORT, function () {
-  console.log('Example app listening on port 3000!')
+  console.log(`app is listening on port ${PORT}`);
 });
