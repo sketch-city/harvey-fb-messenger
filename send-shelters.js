@@ -19,8 +19,8 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       const availableShelters = _.filter(body, { available: 'TRUE' });
-      const shelters = coordinates ? nearestShelter(coordinates, availableShelters) : _.slice(availableShelters, 0, 5);
-      const elements = _.map(shelters, shelter => ({
+      const shelters = coordinates ? nearestShelter(coordinates, availableShelters) : availableShelters;
+      const elements = _.slice(_.map(shelters, shelter => ({
         title: shelter.name,
         subtitle: shelter.address,
         item_url: getMapsUrl(shelter),
@@ -34,7 +34,7 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
           title: "Call",
           payload: shelter.phone_number.replace(/[^0-9]/g, ''),
         }],
-      }));
+      })), 0, 10);
       const messageData = {
         recipient: {
           id: recipientId
