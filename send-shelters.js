@@ -20,6 +20,21 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
     if (!error && response.statusCode == 200) {
       const availableShelters = _.filter(body, { available: 'TRUE' });
       const shelters = coordinates ? nearestShelter(coordinates, availableShelters) : _.slice(availableShelters, 0, 5);
+      const elements = _.map(shelters, shelter => ({
+        title: shelter.name,
+        subtitle: shelter.address,
+        item_url: getMapsUrl(shelter),
+        image_url: getImageUrl(shelter),
+        buttons: [{
+          type: "web_url",
+          url: getDirectionsUrl(shelter),
+          title: "Get Directions"
+        }, {
+          type: "phone_number",
+          title: "Call",
+          payload: shelter.phone_number.replace(/[^0-9]/g, ''),
+        }],
+      }));
       const messageData = {
         recipient: {
           id: recipientId
@@ -29,28 +44,14 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
             type: "template",
             payload: {
               template_type: "generic",
-              elements: _.map(shelters, shelter => ({
-                title: shelter.name,
-                subtitle: shelter.address,
-                item_url: getMapsUrl(shelter),
-                image_url: getImageUrl(shelter),
-                buttons: [{
-                  type: "web_url",
-                  url: getDirectionsUrl(shelter),
-                  title: "Get Directions"
-                }, {
-                  type: "phone_number",
-                  title: "Call",
-                  payload: shelter.phone_number.replace(/[^0-9]/g, ''),
-                }],
-              })),
+              elements,
             }
           }
         }
       };
       //console.log('shelters', JSON.stringify(shelters));
       //console.log('messageData', JSON.stringify(messageData));
-      sendTextMessage(recipientId, `Here are the closest ${messageData.message.attachemtn.payload.elements.length} shelters:`);
+      sendTextMessage(recipientId, `Here are the closest ${elements.length} shelters:`);
       callSendAPI(messageData, false, !coordinates && sendLocationRequest);
     } else {
       console.error("Unable to get shelters.");
