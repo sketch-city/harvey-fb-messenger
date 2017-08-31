@@ -1,7 +1,8 @@
 import request from 'request';
 import { sendTypingOff } from './send-typing';
 
-const PAGE_ACCESS_TOKEN = 'EAAcOL1VWhn8BAKeEVZB6YhNjrF5tAIeydJSduHkZCiCUP5EzSZAHRQoRDyEiPQ1IviVCxNnhN9ZC1H0wSyjuH2TNuNBJI1oYrUV7zjtZA7mZCiBZBVEYjuYQSCyvcYLcwqwxBRXjaWBOWT7rk9Qh0XGFIaWOOHXPZChPleRunq49FQZDZD';
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
+  || 'EAAcOL1VWhn8BAKeEVZB6YhNjrF5tAIeydJSduHkZCiCUP5EzSZAHRQoRDyEiPQ1IviVCxNnhN9ZC1H0wSyjuH2TNuNBJI1oYrUV7zjtZA7mZCiBZBVEYjuYQSCyvcYLcwqwxBRXjaWBOWT7rk9Qh0XGFIaWOOHXPZChPleRunq49FQZDZD';
 
 export const callSendAPI = (messageData, turnOffTyping, cb) => {
   turnOffTyping && sendTypingOff(messageData.recipient.id)
