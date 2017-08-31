@@ -50,6 +50,7 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
       };
       //console.log('shelters', JSON.stringify(shelters));
       //console.log('messageData', JSON.stringify(messageData));
+      sendTextMessage(recipientId, `Here are the closest ${messageData.message.attachemtn.payload.elements.length} shelters:`);
       callSendAPI(messageData, false, !coordinates && sendLocationRequest);
     } else {
       console.error("Unable to get shelters.");
