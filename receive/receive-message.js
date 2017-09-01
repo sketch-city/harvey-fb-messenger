@@ -27,7 +27,7 @@ export const receivedMessage = event => {
         sendLocationRequest(senderID);
         break;
 
-      default:
+      case 'Help':
         sendQuickReply(senderID, 'How can I help?');
     }
   } else if (messageAttachments && messageAttachments[0].type === 'location') {
