@@ -15,9 +15,8 @@ const getDistance = (lat1,lon1,lat2,lon2) => {
 };
 
 export const nearestShelter = (coordinates, shelters) => {
-  const radius = 10;
-  return _.filter(shelters, shelter => {
-    const dist = getDistance(coordinates.lat, coordinates.long, shelter.lat, shelter.lng);
-    return radius > dist;
-  });
+  return _.chain(shelters).map(shelter => {
+    const distance = getDistance(coordinates.lat, coordinates.lng || coordinates.long, shelter.lat, shelter.lng);
+    return Object.assign({}, shelter, { distance });
+  }).sortBy('distance').value();
 };
