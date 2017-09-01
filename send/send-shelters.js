@@ -22,7 +22,7 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
       const shelters = coordinates ? nearestShelter(coordinates, availableShelters) : availableShelters;
       const elements = _.slice(_.map(shelters, shelter => ({
         title: shelter.name,
-        subtitle: shelter.address,
+        subtitle: `${Math.ceil(shelter.distance)} mi - ${shelter.address}`,
         item_url: getMapsUrl(shelter),
         image_url: getImageUrl(shelter),
         buttons: [{
