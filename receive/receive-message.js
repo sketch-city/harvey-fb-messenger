@@ -36,6 +36,8 @@ export const receivedMessage = event => {
 
       case 'Help':
         sendQuickReply(senderID, 'How can I help?');
+        break;
+
       default:
         client.places({ query: messageText }, (err, response) => {
             const place = _.first(response.json.results);
