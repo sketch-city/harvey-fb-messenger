@@ -3,6 +3,7 @@ import { sendTextMessage } from '../send/send-text-message';
 import { sendSheltersMessage } from '../send/send-shelters';
 import { sendLocationRequest } from '../send/send-location-request';
 import { sendQuickReply } from '../send/send-quick-reply';
+import { sendDonationInfo } from '../send/send-donation-info';
 
 import maps from '@google/maps';
 
@@ -29,21 +30,22 @@ export const receivedMessage = event => {
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'Find Shelters':
-        sendLocationRequest(senderID);
-        break;
-
-      case 'Help':
-        sendQuickReply(senderID, 'How can I help?');
-        break;
-
-      default:
-        client.places({ query: messageText }, (err, response) => {
+    if(messageText.match(/shelter/i)) {
+      const match = messageText.match(/shelters? +near(by)? +(.*)/i)
+      if (match[2]) {
+        client.places({ query: match[2] }, (err, response) => {
             const place = _.first(response.json.results);
             place && sendSheltersMessage(senderID, place.geometry.location);
         });
+      }
+      else
+          sendLocationRequest(senderID);
     }
+    else if(messageText.match(/(donate|volunteer)/i))
+         sendDonationInfo(senderID);
+    else if(messageText.match(/help/i))
+         sendQuickReply(senderID, "Here's what I can do");
+
   } else if (messageAttachments && messageAttachments[0].type === 'location') {
     sendSheltersMessage(senderID, messageAttachments[0].payload.coordinates);
   } else if (messageAttachments) {
