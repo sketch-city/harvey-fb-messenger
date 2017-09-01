@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
 
-import { receivedMessage } from './receive-message';
-import { receivedPostback } from './receive-postback';
+import { receivedMessage } from './receive/receive-message';
+import { receivedPostback } from './receive/receive-postback';
 
 const app = express();
 // parse application/json

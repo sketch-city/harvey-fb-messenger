@@ -1,7 +1,7 @@
-import { sendTextMessage } from './send-text-message';
-import { sendSheltersMessage } from './send-shelters';
-import { sendLocationRequest } from './send-location-request';
-import { sendQuickReply } from './send-quick-reply';
+import { sendTextMessage } from '../send/send-text-message';
+import { sendSheltersMessage } from '../send/send-shelters';
+import { sendLocationRequest } from '../send/send-location-request';
+import { sendQuickReply } from '../send/send-quick-reply';
 
 export const receivedMessage = event => {
   const senderID = event.sender.id;

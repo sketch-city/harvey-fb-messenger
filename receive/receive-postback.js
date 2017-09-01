@@ -1,5 +1,5 @@
-import { sendTextMessage } from './send-text-message';
-import { sendLocationRequest } from './send-location-request';
+import { sendTextMessage } from '../send/send-text-message';
+import { sendLocationRequest } from '../send/send-location-request';
 
 export const receivedPostback = event => {
   const senderID = event.sender.id;
