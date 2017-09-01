@@ -6,7 +6,7 @@ export const sendLocationRequest = (recipientId, messageText) => {
       id: recipientId
     },
     message: {
-        text: messageText || 'Please share your location so we can find shelters nearby:',
+      text: messageText || 'Type you address or use the "Send Location" button',
       quick_replies: [{ content_type: 'location' }]
     }
   };
