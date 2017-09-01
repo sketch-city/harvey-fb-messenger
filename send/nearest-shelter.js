@@ -11,7 +11,7 @@ const getDistance = (lat1,lon1,lat2,lon2) => {
   const x = (dlon2 - dlon1) * Math.cos((dlat1 + dlat2) / 2);
   const y = (dlat2 - dlat1);
   const d = Math.sqrt(x * x + y * y) * R;
-  return d;
+  return d * 0.621371; // convert to miles
 };
 
 export const nearestShelter = (coordinates, shelters) => {
