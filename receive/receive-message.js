@@ -32,7 +32,7 @@ export const receivedMessage = event => {
     // and send back the example. Otherwise, just echo the text we received.
     if(messageText.match(/shelter/i)) {
       const match = messageText.match(/shelters? +near(by)? +(.*)/i)
-      if (match[2]) {
+      if (match && match[2]) {
         client.places({ query: match[2] }, (err, response) => {
             const place = _.first(response.json.results);
             place && sendSheltersMessage(senderID, place.geometry.location);
