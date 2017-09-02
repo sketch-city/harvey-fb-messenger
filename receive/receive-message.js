@@ -42,7 +42,7 @@ export const receivedMessage = event => {
       else
           sendLocationRequest(senderID);
     }
-    else if(messageText.match(/donate/i))
+    else if(messageText.match(/(90999|donate)/i))
          sendDonationInfo(senderID);
     else if(messageText.match(/volunteer/i))
          sendVolunteerInfo(senderID);
