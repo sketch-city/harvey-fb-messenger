@@ -51,7 +51,5 @@ export const receivedMessage = event => {
 
   } else if (messageAttachments && messageAttachments[0].type === 'location') {
     sendSheltersMessage(senderID, messageAttachments[0].payload.coordinates);
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
   }
 }
