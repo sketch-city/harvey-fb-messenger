@@ -1,6 +1,6 @@
 import { callSendAPI } from './call-send-api';
 
-export const sendDonationInfo = recipientId => {
+export const sendVolunteerInfo = recipientId => {
       const messageData = {
         recipient: {
           id: recipientId
@@ -12,19 +12,14 @@ export const sendDonationInfo = recipientId => {
               template_type: "generic",
               elements: [
                   {
-                    "title": "Greater Houston Community Foundation",
-                    "subtitle": "Donate to Mayor Turner & County Judge Emmett Establish Hurricane Harvey Relief Fund",
-                    "item_url": "https://ghcf.org/hurricane-relief/",
-                  },
-                  {
-                    "title": "Donation Map",
-                    "subtitle": "Find verified places to drop off donations",
+                    "title": "Volunteer Map",
+                    "subtitle": "Find verified places to volunteer",
                     "item_url": "https://sketch-city.github.io/harvey-needs/",
                   },
                   {
-                    "title": "One Click Relief",
-                    "subtitle": "Donate needed supplies via Amazon",
-                    "item_url": "http://oneclickrelief.com/",
+                    "title": "Muck Map",
+                    "subtitle": "Find places that need to be mucked",
+                    "item_url": "https://www.texasrescuemap.com/muckmap",
                   },
               ],
             }

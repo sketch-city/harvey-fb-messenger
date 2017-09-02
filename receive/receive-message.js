@@ -4,6 +4,7 @@ import { sendSheltersMessage } from '../send/send-shelters';
 import { sendLocationRequest } from '../send/send-location-request';
 import { sendQuickReply } from '../send/send-quick-reply';
 import { sendDonationInfo } from '../send/send-donation-info';
+import { sendVolunteerInfo } from '../send/send-volunteer-info';
 
 import maps from '@google/maps';
 
@@ -41,8 +42,10 @@ export const receivedMessage = event => {
       else
           sendLocationRequest(senderID);
     }
-    else if(messageText.match(/(donate|volunteer)/i))
+    else if(messageText.match(/donate/i))
          sendDonationInfo(senderID);
+    else if(messageText.match(/volunteer/i))
+         sendVolunteerInfo(senderID);
     else if(messageText.match(/help/i))
          sendQuickReply(senderID, "Here's what I can do");
 
