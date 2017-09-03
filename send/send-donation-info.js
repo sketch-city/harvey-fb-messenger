@@ -1,4 +1,5 @@
 import { callSendAPI } from './call-send-api';
+import { sendQuickReply } from './send-quick-reply';
 
 export const sendDonationInfo = recipientId => {
       const messageData = {
@@ -48,5 +49,5 @@ export const sendDonationInfo = recipientId => {
       };
       //console.log('shelters', JSON.stringify(shelters));
       //console.log('messageData', JSON.stringify(messageData));
-      callSendAPI(messageData);
+      callSendAPI(messageData, false, sendQuickReply);
 }
