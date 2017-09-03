@@ -47,7 +47,7 @@ export const receivedMessage = event => {
     else if(messageText.match(/volunteer/i))
          sendVolunteerInfo(senderID);
     else if(messageText.match(/help/i))
-         sendQuickReply(senderID, "Here's what I can do");
+         sendQuickReply(senderID, "We're so glad that you wanna help. Here's what you can do.");
 
   } else if (messageAttachments && messageAttachments[0].type === 'location') {
     sendSheltersMessage(senderID, messageAttachments[0].payload.coordinates);
