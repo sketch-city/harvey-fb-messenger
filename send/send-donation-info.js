@@ -14,17 +14,32 @@ export const sendDonationInfo = recipientId => {
                   {
                     "title": "Greater Houston Community Foundation",
                     "subtitle": "Donate to Mayor Turner & County Judge Emmett Establish Hurricane Harvey Relief Fund",
-                    "item_url": "https://ghcf.org/hurricane-relief/",
+                    "item_url": "https://ghcf.org/",
+                    buttons: [{
+                      type: "web_url",
+                      url: "https://ghcf.org/hurricane-relief/",
+                      title: "Donate Now"
+                    }]
                   },
                   {
                     "title": "Donation Map",
                     "subtitle": "Find verified places to drop off donations",
                     "item_url": "https://sketch-city.github.io/harvey-needs/",
+                    buttons: [{
+                      type: "web_url",
+                      url: "https://sketch-city.github.io/harvey-needs/",
+                      title: "View Map"
+                    }]
                   },
                   {
                     "title": "One Click Relief",
                     "subtitle": "Donate needed supplies via Amazon",
                     "item_url": "http://oneclickrelief.com/",
+                    buttons: [{
+                      type: "web_url",
+                      url: "http://oneclickrelief.com/",
+                      title: "View Needs"
+                    }]
                   },
               ],
             }
