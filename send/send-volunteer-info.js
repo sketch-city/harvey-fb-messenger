@@ -37,7 +37,5 @@ export const sendVolunteerInfo = recipientId => {
           }
         }
       };
-      //console.log('shelters', JSON.stringify(shelters));
-      //console.log('messageData', JSON.stringify(messageData));
       callSendAPI(messageData, false, sendQuickReply);
 }

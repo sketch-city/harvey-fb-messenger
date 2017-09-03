@@ -49,8 +49,6 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
           }
         }
       };
-      //console.log('shelters', JSON.stringify(shelters));
-      //console.log('messageData', JSON.stringify(messageData));
       sendTextMessage(recipientId, `${elements.length} shelters near this location`);
       callSendAPI(messageData, false, !coordinates && sendLocationRequest);
     } else {
