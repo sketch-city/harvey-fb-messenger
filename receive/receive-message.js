@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import winston from 'winston';
 import { sendTextMessage } from '../send/send-text-message';
 import { sendSheltersMessage } from '../send/send-shelters';
 import { sendLocationRequest } from '../send/send-location-request';
@@ -18,9 +19,7 @@ export const receivedMessage = event => {
   const timeOfMessage = event.timestamp;
   const message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, pageID, timeOfMessage);
-  console.log(JSON.stringify(message));
+  winston.log('verbose', `Received message for user ${senderID} and page ${pageID} at ${timeOfMessage} with message`, message);
 
   const messageId = message.mid;
 
@@ -34,9 +33,17 @@ export const receivedMessage = event => {
     if(messageText.match(/shelter/i)) {
       const match = messageText.match(/shelters? +near(by)? +(.*)/i)
       if (match && match[2]) {
-        client.places({ query: match[2] }, (err, response) => {
-            const place = _.first(response.json.results);
-            place && sendSheltersMessage(pageID, senderID, place.geometry.location);
+        const options = { query: match[2] };
+        winston.log('verbose', 'Searching for google places', options);
+        client.places(options, (err, response) => {
+            if (err)
+                winston.error('Error with Google Places query', err);
+            else {
+                const place = _.first(response.json.results);
+                winston.log('verbose', 'Found Google Place', place);
+                if (place)
+                    sendSheltersMessage(pageID, senderID, place.geometry.location, place.formatted_address);
+            }
         });
       }
       else
