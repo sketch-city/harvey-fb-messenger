@@ -1,7 +1,7 @@
 import request from 'request';
 import { sendTypingOff } from './send-typing';
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || {};
+const PAGE_ACCESS_TOKEN = JSON.parse(process.env.PAGE_ACCESS_TOKEN) || {};
 
 export const callSendAPI = (pageId, messageData, turnOffTyping, cb) => {
   turnOffTyping && sendTypingOff(messageData.recipient.id)
