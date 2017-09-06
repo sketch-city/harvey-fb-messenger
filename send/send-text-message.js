@@ -6,7 +6,7 @@ export const sendTextMessage = (recipientId, messageText, turnOffTyping) => {
       id: recipientId
     },
     message: {
-        text: `HarveyBot: ${messageText}`
+        text: `Bot: ${messageText}`
     }
   };
 
