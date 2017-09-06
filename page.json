@@ -2,11 +2,13 @@
     "101772907229473": {
         "pageName": "HarveyNeeds",
         "pageAccessToken": "EAAcOL1VWhn8BAKW4LL7IZCZAxr0XhBaJt3MizTRlwUuoaNZAauw9eEA4JSACnH3keYlwCsNgfQZAfJzArFcnrbT18BIbzSEjmy2txTzwEkDlHQrgyAFCyHvpjFvZB3NKutFZBYQFL9CnZB6jdDaU4deHvZCVsSPSLyLMOGxcqV1GkQZDZD",
-        "apiUrl": "https://api.harveyneeds.org"
+        "apiUrl": "https://api.harveyneeds.org",
+        "needsMapUrl": "https://sketch-city.github.io/harvey-needs/"
     },
     "294230177718145": {
         "pageName": "Irma Relief South FL",
         "pageAccessToken": "EAAcOL1VWhn8BAMF3PRSYSDGGRBnvQzhplE2fJc0NVybsseJfgqoilbVS5vGQfqu6YI89CRqpZBsgMCZAverSkOBI3OB8eMVjlWPwUQVWeQk9niAgXsMQWlz8kSFZAvRHmdpiggBtpQg7ZAPbxepjFuuElPCG4nkKKUfxilm2OQZDZD",
-        "apiUrl": "https://irma-api.herokuapp.com"
+        "apiUrl": "https://irma-api.herokuapp.com",
+        "needsMapUrl": "https://sketch-city.github.io/irma-needs-example/"
     }
 }

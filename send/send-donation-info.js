@@ -1,6 +1,8 @@
 import { callSendAPI } from './call-send-api';
 import { sendQuickReply } from './send-quick-reply';
 
+const PAGE = JSON.parse(process.env.PAGE) || {};
+
 export const sendDonationInfo = (pageId, recipientId) => {
       const messageData = {
         recipient: {
@@ -25,10 +27,10 @@ export const sendDonationInfo = (pageId, recipientId) => {
                   {
                     "title": "Donation Map",
                     "subtitle": "Find verified places to drop off donations",
-                    "item_url": "https://sketch-city.github.io/harvey-needs/",
+                    "item_url": PAGE[pageId].needsMapUrl,
                     buttons: [{
                       type: "web_url",
-                      url: "https://sketch-city.github.io/harvey-needs/",
+                      url: PAGE[pageId].needsMapUrl,
                       title: "View Map"
                     }]
                   },
