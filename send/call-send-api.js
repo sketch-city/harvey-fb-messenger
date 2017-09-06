@@ -19,7 +19,7 @@ export const callSendAPI = (pageId, messageData, turnOffTyping, cb) => {
       console.log("Successfully sent generic message with id %s to recipient %s",
         messageId, recipientId);
 
-      cb && cb(messageData.recipient.id);
+      cb && cb(pageId, messageData.recipient.id);
     } else {
       console.error("Unable to send message.");
       console.error(response);
