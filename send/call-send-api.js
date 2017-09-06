@@ -1,13 +1,13 @@
 import request from 'request';
 import { sendTypingOff } from './send-typing';
 
-const PAGE_ACCESS_TOKEN = JSON.parse(process.env.PAGE_ACCESS_TOKEN) || {};
+const PAGE = JSON.parse(process.env.PAGE) || {};
 
 export const callSendAPI = (pageId, messageData, turnOffTyping, cb) => {
   turnOffTyping && sendTypingOff(messageData.recipient.id)
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: PAGE_ACCESS_TOKEN[pageId] },
+    qs: { access_token: PAGE[pageId].pageAccessToken },
     method: 'POST',
     json: messageData
 
