@@ -14,12 +14,12 @@ const client = maps.createClient({
 
 export const receivedMessage = event => {
   const senderID = event.sender.id;
-  const recipientID = event.recipient.id;
+  const pageID = event.recipient.id;
   const timeOfMessage = event.timestamp;
   const message = event.message;
 
   console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
+    senderID, pageID, timeOfMessage);
   console.log(JSON.stringify(message));
 
   const messageId = message.mid;
@@ -36,20 +36,20 @@ export const receivedMessage = event => {
       if (match && match[2]) {
         client.places({ query: match[2] }, (err, response) => {
             const place = _.first(response.json.results);
-            place && sendSheltersMessage(senderID, place.geometry.location);
+            place && sendSheltersMessage(pageID, senderID, place.geometry.location);
         });
       }
       else
-          sendLocationRequest(senderID);
+          sendLocationRequest(pageID, senderID);
     }
     else if(messageText.match(/(90999|donate)/i))
-         sendDonationInfo(senderID);
+         sendDonationInfo(pageID, senderID);
     else if(messageText.match(/volunteer/i))
-         sendVolunteerInfo(senderID);
+         sendVolunteerInfo(pageID, senderID);
     else if(messageText.match(/help/i))
-         sendQuickReply(senderID, "We're so glad that you wanna help. Here's what you can do.");
+         sendQuickReply(pageID, senderID, "We're so glad that you wanna help. Here's what you can do.");
 
   } else if (messageAttachments && messageAttachments[0].type === 'location') {
-    sendSheltersMessage(senderID, messageAttachments[0].payload.coordinates);
+    sendSheltersMessage(pageID, senderID, messageAttachments[0].payload.coordinates);
   }
 }

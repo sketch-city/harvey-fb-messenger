@@ -10,7 +10,7 @@ const getMapsUrl = shelter => (`https://www.google.com/maps/search/?api=1&query=
 const getDirectionsUrl = shelter => (`https://www.google.com/maps/dir/?api=1&destination=${shelter.name} ${shelter.address}`);
 const getImageUrl = shelter => ('');
 
-export const sendSheltersMessage = (recipientId, coordinates) => {
+export const sendSheltersMessage = (pageId, recipientId, coordinates) => {
   sendTypingOn(recipientId);
   request({
     uri: 'http://www.collegehaxcess.com/houstonian/shelters.php',
@@ -49,8 +49,8 @@ export const sendSheltersMessage = (recipientId, coordinates) => {
           }
         }
       };
-      sendTextMessage(recipientId, `${elements.length} shelters near this location`);
-      callSendAPI(messageData, false, !coordinates && sendLocationRequest);
+      sendTextMessage(pageId, recipientId, `${elements.length} shelters near this location`);
+      callSendAPI(pageId, messageData, false, !coordinates && sendLocationRequest);
     } else {
       console.error("Unable to get shelters.");
       console.error(response);

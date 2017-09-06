@@ -1,6 +1,6 @@
 import { callSendAPI } from './call-send-api';
 
-export const sendTextMessage = (recipientId, messageText, turnOffTyping) => {
+export const sendTextMessage = (pageId, recipientId, messageText, turnOffTyping) => {
   const messageData = {
     recipient: {
       id: recipientId
@@ -10,5 +10,5 @@ export const sendTextMessage = (recipientId, messageText, turnOffTyping) => {
     }
   };
 
-  callSendAPI(messageData, turnOffTyping);
+  callSendAPI(pageId, messageData, turnOffTyping);
 }

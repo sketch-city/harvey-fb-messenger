@@ -1,6 +1,6 @@
 import { callSendAPI } from './call-send-api';
 
-export const sendQuickReply = (recipientId, messageText) => callSendAPI({
+export const sendQuickReply = (pageId, recipientId, messageText) => callSendAPI(pageId, {
     recipient: { id: recipientId },
     message: {
       text: `Bot: ${messageText || "Here's what you can do." }`,

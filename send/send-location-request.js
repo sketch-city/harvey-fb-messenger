@@ -1,6 +1,6 @@
 import { callSendAPI } from './call-send-api';
 
-export const sendLocationRequest = (recipientId, messageText) => {
+export const sendLocationRequest = (pageId, recipientId, messageText) => {
   const messageData = {
     recipient: {
       id: recipientId
@@ -11,5 +11,5 @@ export const sendLocationRequest = (recipientId, messageText) => {
     }
   };
 
-  callSendAPI(messageData);
+  callSendAPI(pageId, messageData);
 }
