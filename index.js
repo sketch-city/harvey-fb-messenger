@@ -1,33 +1,38 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
+import winston from 'winston';
 
 import { receivedMessage } from './receive/receive-message';
 import { receivedPostback } from './receive/receive-postback';
 
+import { consoleLogger, errorLogger } from './logger';
+
 const app = express();
+
 // parse application/json
 app.use(bodyParser.json())
+
+app.use(consoleLogger);
+winston.level = process.env.LOG_LEVEL || 'debug';
 
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'hurricane-harvey-messenger';
 const PORT = process.env.PORT || 8080;
 
 // GET - verification
 app.get('/webhook', function(req, res) {
-  console.log('POST', '/webhook', JSON.stringify(req.query));
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VERIFY_TOKEN) {
-      console.log("Validating webhook");
+      winston.log("Validating webhook");
       res.status(200).send(req.query['hub.challenge']);
   } else {
-      console.error("Failed validation. Make sure the validation tokens match.");
+      winston.error("Failed validation. Make sure the validation tokens match.");
       res.sendStatus(403);
   }
 });
 
 app.post('/webhook', function (req, res) {
   const data = req.body;
-  console.log('POST', '/webhook', JSON.stringify(data));
 
   // Make sure this is a page subscription
   if (data.object === 'page') {
@@ -44,7 +49,7 @@ app.post('/webhook', function (req, res) {
         } else if (event.postback) {
           receivedPostback(event);
         } else {
-          console.log("Webhook received unknown event: ", event);
+          winston.warn("Webhook received unknown event", event);
         }
       });
     });
@@ -58,6 +63,9 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+// express-winston errorLogger makes sense AFTER the router.
+app.use(errorLogger);
+
 app.listen(PORT, function () {
-  console.log(`app is listening on port ${PORT}`);
+  winston.log(`app is listening on port ${PORT}`);
 });

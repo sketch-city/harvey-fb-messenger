@@ -1,4 +1,5 @@
 import request from 'request';
+import winston from 'winston';
 import { sendTypingOff } from './send-typing';
 
 const PAGE = JSON.parse(process.env.PAGE) || {};
@@ -16,14 +17,10 @@ export const callSendAPI = (pageId, messageData, turnOffTyping, cb) => {
       const recipientId = body.recipient_id;
       const messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s",
-        messageId, recipientId);
-
+      winston.log('verbose', `Successfully sent generic message with id ${messageId} to recipient ${recipientId}`, messageData);
       cb && cb(pageId, messageData.recipient.id);
     } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      winston.error("Unable to send message.", { response, error });
     }
   });
 }

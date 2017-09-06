@@ -1,3 +1,4 @@
+import winston from 'winston';
 import { sendTextMessage } from '../send/send-text-message';
 import { sendLocationRequest } from '../send/send-location-request';
 
@@ -11,10 +12,7 @@ export const receivedPostback = event => {
   const payload = event.postback.payload;
   const referral = event.postback.referral;
 
-  console.log('postback', JSON.stringify(event.postback));
-
-  console.log("Received postback for user %d and page %d with payload '%s' " +
-    "at %d", senderID, recipientID, payload, timeOfPostback);
+  winston.log('verbose', `Received postback for user ${senderID} and page ${recipientID} with payload '${payload}' at ${timeOfPostback}`, event.postback);
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
