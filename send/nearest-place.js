@@ -14,9 +14,9 @@ const getDistance = (lat1,lon1,lat2,lon2) => {
   return d * 0.621371; // convert to miles
 };
 
-export const nearestShelter = (coordinates, shelters) => {
-  return _.chain(shelters).map(shelter => {
-    const distance = getDistance(coordinates.lat, coordinates.lng || coordinates.long, shelter.lat, shelter.lng);
-    return Object.assign({}, shelter, { distance });
+export const nearestPlace = (coordinates, places) => {
+  return _.chain(places).map(place => {
+    const distance = getDistance(coordinates.lat, coordinates.lng || coordinates.long, place.latitude, place.longitude);
+    return Object.assign({}, place, { distance });
   }).sortBy('distance').value();
 };

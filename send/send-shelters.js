@@ -1,38 +1,49 @@
+import winston from 'winston';
 import { callSendAPI } from './call-send-api';
 import { sendTextMessage } from './send-text-message';
 import { sendLocationRequest } from './send-location-request';
 import { sendTypingOn, sendTypingOff } from './send-typing';
-import { nearestShelter } from './nearest-shelter';
+import { nearestPlace } from './nearest-place';
 import request from 'request';
 import _ from 'lodash';
 
-const getMapsUrl = shelter => (`https://www.google.com/maps/search/?api=1&query=${shelter.name} ${shelter.address}`);
-const getDirectionsUrl = shelter => (`https://www.google.com/maps/dir/?api=1&destination=${shelter.name} ${shelter.address}`);
-const getImageUrl = shelter => ('');
+const getMapsUrl = place => (`https://www.google.com/maps/search/?api=1&query=${place.shelter} ${place.address}`);
+const getDirectionsUrl = place => (`https://www.google.com/maps/dir/?api=1&destination=${place.shelter} ${place.address}`);
+const getImageUrl = place => ('');
 
-export const sendSheltersMessage = (pageId, recipientId, coordinates) => {
+const PAGE = JSON.parse(process.env.PAGE) || {};
+
+export const sendSheltersMessage = (pageId, recipientId, coordinates, address) => {
   sendTypingOn(pageId, recipientId);
-  request({
-    uri: 'http://www.collegehaxcess.com/houstonian/shelters.php',
+  const options = {
+    uri: `${PAGE[pageId].apiUrl}/api/v1/shelters`,
     method: 'GET',
     json: true,
-  }, function (error, response, body) {
+    qs: {
+      accepting: true,
+      lat: coordinates.lat,
+      lng: coordinates.lng || coordinates.long,
+      limit: 10,
+    },
+  };
+  winston.log('verbose', 'Searching for shelters', options);
+  request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      const availableShelters = _.filter(body, { available: 'TRUE' });
-      const shelters = coordinates ? nearestShelter(coordinates, availableShelters) : availableShelters;
-      const elements = _.slice(_.map(shelters, shelter => ({
-        title: shelter.name,
-        subtitle: `${Math.ceil(shelter.distance)} mi - ${shelter.address}`,
-        item_url: getMapsUrl(shelter),
-        image_url: getImageUrl(shelter),
+      winston.log('debug', 'found shelters', body.shelters);
+      const places = coordinates ? nearestPlace(coordinates, body.shelters) : body.shelters;
+      const elements = _.slice(_.map(places, place => ({
+        title: place.shelter,
+        subtitle: `${Math.ceil(place.distance)} mi - ${place.address}`,
+        item_url: getMapsUrl(place),
+        image_url: getImageUrl(place),
         buttons: [{
           type: "web_url",
-          url: getDirectionsUrl(shelter),
+          url: getDirectionsUrl(place),
           title: "Get Directions"
         }, {
           type: "phone_number",
           title: "Call",
-          payload: shelter.phone_number.replace(/[^0-9]/g, ''),
+          payload: place.phone.replace(/[^0-9]/g, ''),
         }],
       })), 0, 10);
       const messageData = {
@@ -49,12 +60,15 @@ export const sendSheltersMessage = (pageId, recipientId, coordinates) => {
           }
         }
       };
-      sendTextMessage(pageId, recipientId, `${elements.length} shelters near this location`);
-      callSendAPI(pageId, messageData, false, !coordinates && sendLocationRequest);
+
+      if (elements.length > 0) {
+          sendTextMessage(pageId, recipientId, `${elements.length} shelters near ${address}`);
+          callSendAPI(pageId, messageData, false);
+      } else {
+          sendTextMessage(pageId, recipientId, `No available shelters found near ${address}`)
+      }
     } else {
-      console.error("Unable to get shelters.");
-      console.error(response);
-      console.error(error);
+      winston.error("Unable to get shelters", { response, error, options });
       sendTextMessage(pageId, recipientId, 'Houston! We have a problem.', false);
     }
   });
